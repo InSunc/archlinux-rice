@@ -1,0 +1,14 @@
+#
+# This file is parsed by pam_env module
+#
+# Syntax: simple "KEY=VAL" pairs on separate lines
+#
+T_FG=E0E0E0
+T_BG=232423
+
+BROWSER=chromium
+TERMINAL=termite
+DMENU='/home/insunc/scripts/wm/dmenu.sh'
+DMENU_RUN='dmenu_run -b -nf "$T_FG" -nb "$T_BG" -sb "$T_FG" -sf "$T_BG" -fn "xft:xos4 Terminus:style=bold:pixelsize=32"'
+ROFI='rofi -combi-modi window,run -show combi'
+EDITOR=nvim

@@ -1,0 +1,51 @@
+#!/bin/bash
+# --------------------
+# Scratchpad for bspwm
+#              ~InSunc
+# --------------------
+#
+# If there is a window considered as scratchpad, use it
+# otherwise create a new floating window
+#
+
+
+function create_window()
+{
+	echo 'NEW'
+	bspc rule -a \* -o state=floating
+	$TERMINAL &
+	# node/window was created but bspc query doesn't see it
+	# that's why I included it in a loop, so that runs bspc qury until it detects the node
+#	sleep 1
+#	while ! [[ "$(bspc query -N -n .floating.focused)" ]]
+#	do
+#		echo 'Trying . . .'
+#		bspc query -N -n .floating.focused > /tmp/scratchid
+#	done
+}
+
+id=$(cat /tmp/scratchid)
+
+#echo "ID = $id"
+
+if [[ -z "$id" ]]
+then
+	echo 'CREATE'
+	if [ "$(bspc query -N -n .floating.focused)" ]
+	then
+		echo 'ASSIGN'
+		bspc query -N -n .floating.focused > /tmp/scratchid
+	else
+		create_window
+	fi
+else
+	if [[ "$(bspc node $id.floating)" ]]
+	then
+		echo 'TOGGLE'
+		bspc node $id -g sticky --flag hidden
+		bspc node -f $id
+	else
+		create_window
+	fi
+
+fi
